@@ -4,15 +4,16 @@ from PIL import Image
 import numpy as np
 
 def refactor(writing):
+    print("Priming Image...")
     image = cv2.cvtColor(writing, cv2.COLOR_BGR2GRAY)
     image = cv2.resize(image, (GetSystemMetrics(0), GetSystemMetrics(1)))
     se = cv2.getStructuringElement(cv2.MORPH_RECT, (8, 8))
     bg = cv2.morphologyEx(image, cv2.MORPH_DILATE, se)
     out_gray = cv2.divide(image, bg, scale=255)
-    ret,img = cv2.threshold(out_gray, 125, 255,cv2.THRESH_BINARY)
+    ret,img = cv2.threshold(out_gray, 125, 255,cv2.THRESH_BINARY) #125 works better for pen, 175 for pencil
 
     showImg(img)
-    drawHoriLines(img)
+    #drawHoriLines(img)
 
     return img
 
